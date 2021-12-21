@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <textarea id="csv-string" name="csvString" rows="10" cols="100" placeholder="Enter CSV. Eg. OD001, OD002, OD003, OD004, OD005"></textarea>
+    <br>
+        <input
+        placeholder="Surround with"
+        id="surround-with"
+        type="text"
+        />
+        <button onclick="format()">Convert</button>
+        <br>
+        <br>
+        <br>
+        <textarea
+        id="csv-result"
+        rows="10" 
+        cols="100"
+        placeholder="result"
+        ></textarea>
+        <br>
+        <br>
+        Checkout <a href="https://delim.co/">Delim</a> to convert column data to CSV formats.
+
+        <script>
+            function format() {
+                const surroundWith = document.getElementById('surround-with').value;
+                const csvString = document.getElementById('csv-string').value;
+                const result = csvStringFormatter(csvString, surroundWith);
+                if(result) {
+                    document.getElementById('csv-result').value = result;
+                } else {
+                    alert('Error!')
+                }
+            }
+            function csvStringFormatter(csvString, surroundWith) {
+    const objectIds = csvString.split(", ")
+    let surroundedObjectIds = "";
+    if (surroundWith == "\"") {
+        // quotes is special case
+        surroundedObjectIds = objectIds.map(item => { return `\"${item}\"` });
+    } else {
+        surroundedObjectIds = objectIds.map(item => { return `${surroundWith}${item}${surroundWith}` }) 
+    }
+    const newString = surroundedObjectIds.join(",")
+    return newString;
+}
+            </script>
+
+</body>
+</html>
